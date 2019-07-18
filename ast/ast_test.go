@@ -19,10 +19,17 @@ func TestString(t *testing.T) {
 					Value: "anotherVar",
 				},
 			},
+			&ReturnStatement{
+				Token: token.Token{Type: token.RETURN, Literal: "return"},
+				ReturnValue: &Identifier{
+					Token: token.Token{Type: token.IDENT, Literal: "value"},
+					Value: "value",
+				},
+			},
 		},
 	}
 
-	if program.String() != "let myVar = anotherVar;" {
+	if program.String() != "let myVar = anotherVar;return value;" {
 		t.Errorf("program.String() wrong. got=%q", program.String())
 	}
 }

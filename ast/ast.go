@@ -65,15 +65,15 @@ func (ls *LetStatement) TokenLiteral() string {
 func (ls *LetStatement) String() string {
 	var out bytes.Buffer
 
-	out.WriteString(ls.TokenLiteral() + " ")
-	out.WriteString(ls.Name.String())
-	out.WriteString(" = ")
+	out.WriteString(ls.TokenLiteral() + " ") // "let "
+	out.WriteString(ls.Name.String())        // let v = value; 中的 "v"
+	out.WriteString(" = ")                   // " = "
 
 	if ls.Value != nil {
 		out.WriteString(ls.Value.String())
 	}
 
-	out.WriteString(";")
+	out.WriteString(";") // "let v = value;"
 
 	return out.String()
 }
@@ -113,13 +113,13 @@ func (rs *ReturnStatement) TokenLiteral() string {
 func (rs *ReturnStatement) String() string {
 	var out bytes.Buffer
 
-	out.WriteString(rs.TokenLiteral() + " ")
+	out.WriteString(rs.TokenLiteral() + " ") // "return "
 
 	if rs.ReturnValue != nil {
 		out.WriteString(rs.ReturnValue.String())
 	}
 
-	out.WriteString(";")
+	out.WriteString(";") // "return value;"
 
 	return out.String()
 }
