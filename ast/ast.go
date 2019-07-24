@@ -49,9 +49,9 @@ func (p *Program) String() string {
 // let 语句
 // let <identifier> = <expression>;
 type LetStatement struct {
-	Token token.Token
-	Name  *Identifier
-	Value Expression
+	Token token.Token // 指 let
+	Name  *Identifier // <identifier>
+	Value Expression  // <expression>
 }
 
 func (ls *LetStatement) statementNode() {
@@ -73,11 +73,13 @@ func (ls *LetStatement) String() string {
 		out.WriteString(ls.Value.String())
 	}
 
-	out.WriteString(";") // "let v = value;"
+	out.WriteString(";")
 
+	// "let v = value;"
 	return out.String()
 }
 
+// 标识符
 type Identifier struct {
 	Token token.Token
 	Value string
@@ -98,8 +100,8 @@ func (i *Identifier) String() string {
 // return 语句
 // return <expression>;
 type ReturnStatement struct {
-	Token       token.Token
-	ReturnValue Expression
+	Token       token.Token // 指 return
+	ReturnValue Expression  // <expression>
 }
 
 func (rs *ReturnStatement) statementNode() {
@@ -121,6 +123,7 @@ func (rs *ReturnStatement) String() string {
 
 	out.WriteString(";") // "return value;"
 
+	// "return ..."
 	return out.String()
 }
 
@@ -189,6 +192,7 @@ func (pe *PrefixExpression) String() string {
 	return out.String()
 }
 
+// InfixExpression
 type InfixExpression struct {
 	Token    token.Token // 操作符 token，如 +
 	Left     Expression

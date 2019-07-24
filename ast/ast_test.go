@@ -1,6 +1,7 @@
 package ast
 
 import (
+	"fmt"
 	"github.com/lwlwilliam/monkey/token"
 	"testing"
 )

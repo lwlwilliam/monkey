@@ -23,8 +23,8 @@ func checkParserErrors(t *testing.T, p *Parser) {
 func TestLetStatements(t *testing.T) {
 	input := `
 let x = 5;
-let y = 10;
-let foobar = 838383;`
+let y = true;
+let foobar = 1.3;`
 
 	// 测试 parser 错误
 	//	input = `
@@ -92,8 +92,8 @@ return 993322;`
 
 	l := lexer.New(input)
 	p := New(l)
-
 	program := p.parseProgram()
+
 	checkParserErrors(t, p)
 
 	if len(program.Statements) != 3 {
@@ -301,6 +301,10 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		{
 			"a + b + c",
 			"((a + b) + c)",
+		},
+		{
+			"a * b + c * d",
+			"((a * b) + (c * d))",
 		},
 		{
 			"a * b * c",
