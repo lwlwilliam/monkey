@@ -3,6 +3,7 @@ package ast
 import (
 	"bytes"
 	"github.com/lwlwilliam/monkey/token"
+	"strings"
 )
 
 // AST 由各个相互关联的 Node 组成
@@ -287,5 +288,65 @@ func (bs *BlockStatement) String() string {
 	for _, s := range bs.Statements {
 		out.WriteString(s.String())
 	}
+	return out.String()
+}
+
+// 字面函数
+// fn <parameters><block statement>
+// (<parameter one>, <parameter two>, <parameter three>, ...) 参数列表，这个列表可以是空的
+type FunctionLiteral struct {
+	Token      token.Token // The 'fn' token
+	Parameters []*Identifier
+	Body       *BlockStatement
+}
+
+func (fl *FunctionLiteral) expressionNode()      {}
+func (fl *FunctionLiteral) TokenLiteral() string { return fl.Token.Literal }
+func (fl *FunctionLiteral) String() string {
+	var out bytes.Buffer
+
+	params := []string{}
+	for _, p := range fl.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString(fl.TokenLiteral())
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") ")
+	out.WriteString(fl.Body.String())
+
+	return out.String()
+}
+
+// 调用表达式
+// <expression>(<comma separated expression>)
+type CallExpression struct {
+	Token     token.Token // '(' token
+	Function  Expression  // 标识符或字面函数
+	Arguments []Expression
+}
+
+func (ce *CallExpression) expressionNode() {
+
+}
+
+func (ce *CallExpression) TokenLiteral() string {
+	return ce.Token.Literal
+}
+
+func (ce *CallExpression) String() string {
+	var out bytes.Buffer
+
+	args := []string{}
+	for _, a := range ce.Arguments {
+		args = append(args, a.String())
+	}
+
+	out.WriteString(ce.Function.String())
+	out.WriteString("(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(")")
+
 	return out.String()
 }
